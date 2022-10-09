@@ -41,5 +41,48 @@
             return result;
         }
 
+            public static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
+        {
+            var expandoDict = expando as IDictionary<string, object>;
+            if (expandoDict.ContainsKey(propertyName))
+                expandoDict[propertyName] = propertyValue;
+            else
+                expandoDict.Add(propertyName, propertyValue);
+        }
 
+
+    DynamicObject From JSON
+
+       public static dynamic DynamicObjectFromJSON(string json)
+        {
+            object obj = FromJSON<dynamic>(json);
+
+            Dictionary<string, string> attributes = DynamicObjectAttributeToDictionary(obj);
+
+            dynamic result = new ExpandoObject();
+            foreach (KeyValuePair<string, string> attribute in attributes)
+            {
+               AddProperty(result, attribute.Key, attribute.Value);
+            }
+
+            return result;
+        }
+
+        Dynamic Object To Dictionary
+
+        public static Dictionary<string, string> DynamicObjectAttributeToDictionary(dynamic obj)
+        {
+            JObject attributesAsJObject = obj.Data ?? obj;
+            Dictionary<string, object> values = attributesAsJObject.ToObject<Dictionary<string, object>>();
+            Dictionary<string, string> attributes = new Dictionary<string, string>();
+            foreach (string key in values.Keys)
+            {
+                if (!attributes.ContainsKey(key))
+                {
+                    attributes.Add(key, values[key]?.ToString() ?? "");
+                }
+            }
+
+            return attributes;
+        }
  -->
