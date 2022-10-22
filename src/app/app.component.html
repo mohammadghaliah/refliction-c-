@@ -86,3 +86,13 @@
             return attributes;
         }
  -->
+
+Get Data From Json Path
+
+<!-- string attributeValue = "";
+string json = JsonConvert.SerializeObject(apiResponse.Data);
+JObject myJObject = JObject.Parse(json.ToLower());
+JToken data = myJObject.SelectToken("$.EMPLOEE_NUMER");
+attributeValue = (string)data; or data.Value<string>(); -->
+
+<!-- https://www.newtonsoft.com/json/help/html/QueryJsonSelectTokenJsonPath.htm -->
